@@ -1,0 +1,234 @@
+/* styles.css */
+
+@font-face {
+    font-family: 'archivo_narrowregular';
+    src: url('./fonts/archivonarrow-regular-webfont.woff2') format('woff2'),
+        url('./fonts/archivonarrow-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'greatlakesnfregular';
+    src: url('./fonts/grealn__-webfont.woff2') format('woff2'),
+        url('./fonts/grealn__-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --system-ui: 'greatlakesnfregular', 'archivo_narrowregular';
+}
+
+body {
+    height: 100vh;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+
+::backdrop {
+    background-image: linear-gradient(45deg,
+            magenta,
+            rebeccapurple,
+            dodgerblue,
+            green);
+    opacity: 0.75;
+}
+
+.progbox {
+    display: grid;
+    width: 100%;
+    min-height: 100%;
+    background-color: aqua;
+    grid-template-columns: 1fr 3fr;
+}
+
+.dashboard {
+    background-color: cornsilk;
+}
+
+.nav {}
+
+.panel {
+    height: 100%;
+}
+
+.presentationSection {
+    padding: 1em;
+    border-color: teal;
+}
+
+.allProjectsSection {
+    min-height: 95vh;
+    min-width: 650px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 2%;
+    background-color: gold;
+}
+
+.oneProjectShow {
+    background-color: beige;
+    padding: 0;
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 6fr;
+}
+
+.oneProjectShow h1 {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
+.prio {
+    background-color: blue;
+    min-width: 30vh;
+    margin: 2px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+.prio1_container {
+    background-color: violet;
+}
+
+.prio2_container {
+    background-color: blueviolet;
+}
+
+.prio3_container {
+    background-color: greenyellow;
+}
+
+.projectCard {
+    background-color: greenyellow;
+    min-height: 10vh;
+    max-height: 20vh;
+    border-radius: 5px;
+    overflow: scroll;
+}
+
+.oneProjectHeadings {
+    display: flex;
+}
+
+
+.container {
+    width: 200px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.container .toDoCard {
+    position: relative;
+    cursor: pointer;
+}
+
+.container .toDoCard .face {
+    width: 250px;
+    height: 200px;
+    transition: 0.5s;
+    outline: none;
+}
+
+.container .toDoCard .face.face1 {
+    position: relative;
+    background: #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    transform: translateY(200px);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 20px 30px;
+}
+
+.container .toDoCard:hover .face.face1 {
+    background: #ff0057;
+    transform: scale(1.2) translateY(0px);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.container .toDoCard .face.face1 #clickNotice {
+    opacity: 0;
+}
+
+.container .toDoCard:hover .face.face1 #clickNotice {
+    opacity: 1;
+    color: white;
+}
+
+.container .toDoCard .face.face1 .content {
+    opacity: 0.2;
+    transition: 0.5s;
+}
+
+.container .toDoCard:hover .face.face1 .content {
+    opacity: 1;
+}
+
+.container .toDoCard .face.face1 .content img {
+    max-width: 100px;
+}
+
+.container .toDoCard .face.face1 .content h3 {
+    margin: 10px 0 0;
+    padding: 0;
+    color: #fff;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.container .toDoCard .face.face2 {
+    position: relative;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    transform: translateY(0);
+}
+
+.container .toDoCard:hover .face.face2 {
+    transform: scale(1.2) translateY(40px);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: blue;
+}
+
+.container .toDoCard .face.face2 .content p {
+    margin: 0;
+    padding: 0;
+}
+
+.container .toDoCard .face.face2 .content a {
+    margin: 15px 0 5px;
+    display: inline-block;
+    text-decoration: none;
+    font-weight: 900;
+    color: #333;
+    padding: 5px;
+    border: 1px solid #333;
+}
+
+/* .container .toDoCard .face.face2 .content a:hover {} */
+
+.cardNumber {
+    opacity: 0;
+}
