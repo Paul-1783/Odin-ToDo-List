@@ -92,7 +92,7 @@ body {
     align-items: center;
 }
 
-.prio {
+.workflow {
     background-color: blue;
     min-width: 30vh;
     margin: 2px auto;
@@ -102,15 +102,15 @@ body {
     overflow: hidden;
 }
 
-.prio1_container {
+.notStarted_container {
     background-color: violet;
 }
 
-.prio2_container {
+.progress_container {
     background-color: blueviolet;
 }
 
-.prio3_container {
+.done_container {
     background-color: greenyellow;
 }
 
@@ -231,4 +231,8 @@ body {
 
 .cardNumber {
     opacity: 0;
+}
+
+.dragging {
+    opacity: 0.5;
 }

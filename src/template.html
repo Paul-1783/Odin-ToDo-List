@@ -39,12 +39,12 @@
 
                     </div>
                     <div class="oneProjectShow">
-                        <h1>To Dos</h1>
+                        <h1>Not yet started</h1>
                         <h1>In Progress</h1>
                         <h1>Done</h1>
-                        <div class="prio1_container prio"></div>
-                        <div class="prio2_container prio"></div>
-                        <div class="prio3_container prio"></div>
+                        <div class="notStarted_container workflow"></div>
+                        <div class="progress_container workflow"></div>
+                        <div class="done_container workflow"></div>
                     </div>
                 </div>
             </div>
@@ -79,7 +79,11 @@
                 </p>
                 <p>
                     <label for="status">Status:</label>
-                    <input type="text" name="status" id="status" required />
+                    <select name="status" id="status">
+                        <option value="not started">not started</option>
+                        <option value="in progress">in progress</option>
+                        <option value="done">done</option>
+                    </select>
                 </p>
                 <p>
                     <label for="dueDate">Due Date:</label>
@@ -109,8 +113,12 @@
                     <input type="text" name="extendedPriority" id="extendedPriority" required />
                 </p>
                 <p>
-                    <label for="status">Status:</label>
-                    <input type="text" name="extendedStatus" id="extendedStatus" required />
+                    <label for="extendedStatus">Status:</label>
+                    <select name="status" id="extendedStatus">
+                        <option value="not started">not started</option>
+                        <option value="in progress">in progress</option>
+                        <option value="done">done</option>
+                    </select>
                 </p>
                 <p>
                     <label for="dueDate">Due Date:</label>

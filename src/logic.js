@@ -6,14 +6,28 @@ let newTodo = function (ti, desc, due, prio, sta) {
   let status = sta;
   let checkList = [];
 
-  function changeTitle() {}
-  function changeDescr() {
-    console.log("changeDescr");
+  function changeTitle(ti) {
+    this.title = ti;
   }
-  function changeDueDate() {}
-  function changePrio() {}
-  function changeStatus() {}
-  function addToCheckList() {}
+  function changeDescr(desc) {
+    this.description = desc;
+  }
+  function changeDueDate(date) {
+    this.dueDate = date;
+  }
+  function changePrio(prio) {
+    priority = prio;
+    console.log("this prio: ", priority);
+  }
+
+  function changeStatus(s) {
+    status = s;
+    console.log("this status: ", status);
+  }
+
+  function addToCheckList(checkElem) {
+    this.checkList.push(checkElem);
+  }
 
   function getTitle() {
     return title;
@@ -27,7 +41,7 @@ let newTodo = function (ti, desc, due, prio, sta) {
   function getPrio() {
     return priority;
   }
-  function getToCheckList() {
+  function getCheckList() {
     return checkList;
   }
   function getStatus() {
@@ -39,12 +53,6 @@ let newTodo = function (ti, desc, due, prio, sta) {
   }
 
   return {
-    title,
-    description,
-    dueDate,
-    priority,
-    checkList,
-    status,
     changeTitle,
     changeDescr,
     changeDueDate,
@@ -55,7 +63,7 @@ let newTodo = function (ti, desc, due, prio, sta) {
     getDescr,
     getDueDate,
     getPrio,
-    getToCheckList,
+    getCheckList,
     getStatus,
     getAllData,
   };
