@@ -17,12 +17,10 @@ let newTodo = function (ti, desc, due, prio, sta) {
   }
   function changePrio(prio) {
     priority = prio;
-    console.log("this prio: ", priority);
   }
 
   function changeStatus(s) {
     status = s;
-    console.log("this status: ", status);
   }
 
   function addToCheckList(checkElem) {

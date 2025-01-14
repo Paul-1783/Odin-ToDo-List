@@ -71,7 +71,7 @@ function buildCard(toDoCard, toDo, count) {
             <div class="face face1">
                 <div class="content">
                   <h1 class="title"> ${toDo.getTitle()}</h1>
-                  <div class="toDoEntry">${toDo.getDueDate()}</div>
+                  <div class="toDoEntry">${formatDate(toDo.getDueDate())}</div>
                   <p id="clickNotice">CLICK TO EDIT</p>
                 </div>
             </div>
@@ -79,13 +79,13 @@ function buildCard(toDoCard, toDo, count) {
             <div class="cardNumber">${count}</div>
                 <div class="content">
                   <section>
+                       <p>Checklist:</p>
+                         <button class="checklistButton">Show Checklist</button>
+                         <div class="checklistContainer"></div>
                         <p>Title: ${toDo.getTitle()}<p/>
                         <p>Description: ${toDo.getDescr()}</p>
                         <p>Set Priority: ${toDo.getPrio()}</p>
-                         <p>Due Date: ${toDo.getDueDate()}</p>
-                         <p>Checklist:</p>
-                         <button class="checklistButton">Extend Checklist</button>
-                         <div class="checklistContainer"></div>
+                         <p>Due Date: ${formatDate(toDo.getDueDate())}</p>
                   </section>
                 </div>
             </div>
@@ -295,7 +295,7 @@ function createDiv(newEntry, project, toDo) {
     "beforeend",
     `<h1 class="title">${project.getProjectName()}</h1
         <p>${toDo.getTitle()}</p>
-      <p>Due Date: ${toDo.getDueDate()}</p>`
+      <p>Due Date: ${formatDate(toDo.getDueDate())}</p>`
   );
 }
 
