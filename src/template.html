@@ -99,7 +99,6 @@
     <dialog class="extendedTodo">
         <form action="" method="dialog" id="extendedTodoDialogForm">
             <section>
-
                 <p>
                     <label for="toDoTitle">Title:</label>
                     <input type="text" name="extendedToDoTitle" id="extendedToDoTitle" required />
@@ -129,7 +128,21 @@
                 <button type="reset" class="closeExtendedTodoDialog">Close</button>
                 <button class="submitExtendedTodoDialog">Submit</button>
             </menu>
+            <p>Checklist:</p>
+            <button type="button" class="checklistButton">Show Checklist</button>
+            <div class="newCheckEntry">
+                <p>Add an entry to the checklist:</p>
+                <form method="dialog" action="">
+                    <textarea name="newCheck" id="newCheck" rows="5" cols="30" minlength="10" maxlength="20"
+                        placeholder="Enter entry here:"></textarea>
+                    <button type="button" id="submitNewCheck">Submit</button>
+                </form>
+            </div>
+            <div class="checklistAll">
+                <div class="checklistContainer"></div>
+            </div>
     </dialog>
+
     <script src="index.js" type="module"></script>
 </body>
 

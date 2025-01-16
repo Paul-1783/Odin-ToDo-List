@@ -24,7 +24,7 @@ let newTodo = function (ti, desc, due, prio, sta) {
   }
 
   function addToCheckList(checkElem) {
-    this.checkList.push(checkElem);
+    checkList.push(checkElem);
   }
 
   function getTitle() {
@@ -139,11 +139,13 @@ let temporalStore = (function () {
 
   let setTempToDo = (ti, desc, due, prio, sta) =>
     (tempToDo = newTodo(ti, desc, due, prio, sta));
+
   let getTempToDo = () => tempToDo;
 
   let setTempCard = (card) => {
     tempCard = card;
   };
+
   let getTempCard = () => {
     return tempCard;
   };

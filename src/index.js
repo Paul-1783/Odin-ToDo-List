@@ -27,6 +27,12 @@ const todosToday = document.querySelector(".todosToday");
 const todosNextSevenDays = document.querySelector(".todosNext7Days");
 const workflowContainers = document.querySelectorAll(".workflow");
 
+const checklistContainer = document.querySelector(".checklistContainer");
+const checklistButton = document.querySelector(".checklistButton");
+const submitNewCheck = document.querySelector("#submitNewCheck");
+const checklistAll = document.querySelector(".checklistAll");
+const newCheck = document.querySelector("#newCheck");
+
 function buildProjectTable(project) {
   const projectButton = document.createElement("button");
   projectButton.classList.add("projectButton");
@@ -72,16 +78,13 @@ function buildCard(toDoCard, toDo, count) {
                 <div class="content">
                   <h1 class="title"> ${toDo.getTitle()}</h1>
                   <div class="toDoEntry">${formatDate(toDo.getDueDate())}</div>
-                  <p id="clickNotice">CLICK TO EDIT</p>
+                  <p id="clickNotice">CLICK TO EDIT OR TO SHOW YOUR CHECKLIST</p>
                 </div>
             </div>
             <div class="face face2">
             <div class="cardNumber">${count}</div>
                 <div class="content">
                   <section>
-                       <p>Checklist:</p>
-                         <button class="checklistButton">Show Checklist</button>
-                         <div class="checklistContainer"></div>
                         <p>Title: ${toDo.getTitle()}<p/>
                         <p>Description: ${toDo.getDescr()}</p>
                         <p>Set Priority: ${toDo.getPrio()}</p>
@@ -116,13 +119,13 @@ function showToDos(project) {
     buildCard(toDoCard, toDo, count);
 
     toDoCard.addEventListener("click", () => {
-      temporalStore.setTempToDo(
-        toDo.getTitle(),
-        toDo.getDescr(),
-        toDo.getDueDate(),
-        toDo.getPrio(),
-        toDo.getStatus()
-      );
+      // temporalStore.setTempToDo(
+      //   toDo.getTitle(),
+      //   toDo.getDescr(),
+      //   toDo.getDueDate(),
+      //   toDo.getPrio(),
+      //   toDo.getStatus()
+      // );
       temporalStore.setTempProject(project);
       temporalStore.setTempCard(toDoCard);
       temporalStore.setTempCount(
@@ -136,19 +139,6 @@ function showToDos(project) {
       document.querySelector("#extendedDueDate").value = toDo.getDueDate();
       extendedTodo.showModal();
     });
-
-    // const checklistContainer = toDoCard.querySelector(".checklistContainer");
-    // const checklistButton = toDoCard.querySelector(".checklistButton");
-    // checklistButton.addEventListener("click", () => {
-    //   let theChecklist = toDo.getCheckList();
-    //   if (theChecklist.length > 0) {
-    //     theChecklist.forEach((bulletpoint) => {
-    //       let checkListEntry = document.createElement("p");
-    //       checkListEntry.innerText = bulletpoint;
-    //       checklistContainer.appendChild(checkListEntry);
-    //     });
-    //   }
-    // });
 
     addToStatusBar(toDo, toDoCard);
     count++;
@@ -256,15 +246,17 @@ window.addEventListener("load", () => {
     storedProjects.forEach((project) => {
       let storedProject = makeOneProject(project.projectName);
       JSON.parse(project.todoList).forEach((todo) => {
-        storedProject.addTodo(
-          newTodo(
-            todo.title,
-            todo.description,
-            todo.dueDate,
-            todo.priority,
-            todo.status
-          )
+        let oneTodo = newTodo(
+          todo.title,
+          todo.description,
+          todo.dueDate,
+          todo.priority,
+          todo.status
         );
+        todo.checkList.forEach((entry) => {
+          oneTodo.addToCheckList(entry);
+        });
+        storedProject.addTodo(oneTodo);
       });
       buildProjectTable(storedProject);
       allProjectsContainer.addProject(storedProject);
@@ -379,6 +371,7 @@ function storeProjects() {
         dueDate: todo.getDueDate(),
         priority: todo.getPrio(),
         status: todo.getStatus(),
+        checkList: todo.getCheckList(),
       };
       newTodoList.push(todoLocallyStored);
     });
@@ -389,5 +382,55 @@ function storeProjects() {
   });
   localStorage.setItem("allProjects", JSON.stringify(storageArray));
 }
+
+checklistButton.addEventListener("click", () => {
+  if (checklistAll.classList.toggle("visible")) {
+    let project = Object.assign({}, temporalStore.getTempProject());
+    let count = temporalStore.getTempCount();
+    let theChecklist = project.getTodo(count).getCheckList();
+
+    if (theChecklist.length > 0) {
+      checklistAll.style.display = "block";
+      checklistButton.innerText = "Close Checklist";
+      theChecklist.forEach((bulletpoint) => {
+        let checkListEntry = document.createElement("p");
+        checkListEntry.setAttribute("contentEditable", true);
+        checkListEntry.classList.add("checkListEntry");
+        checkListEntry.innerText = bulletpoint;
+        checklistContainer.appendChild(checkListEntry);
+      });
+    }
+  } else {
+    checklistAll.style.display = "none";
+    checklistContainer.innerHTML = "";
+    checklistButton.innerText = "Show Checklist";
+  }
+});
+
+submitNewCheck.addEventListener("click", () => {
+  let project = Object.assign({}, temporalStore.getTempProject());
+  let count = temporalStore.getTempCount();
+  let updatedTodo = project.getTodo(count);
+
+  let todoDeepCopy = newTodo(
+    updatedTodo.getTitle(),
+    updatedTodo.getDescr(),
+    updatedTodo.getDueDate(),
+    updatedTodo.getPrio(),
+    updatedTodo.getStatus()
+  );
+
+  updatedTodo.getCheckList().forEach((todo) => {
+    todoDeepCopy.addToCheckList(todo);
+  });
+  todoDeepCopy.addToCheckList(newCheck.value);
+  project.updateTodo(count, todoDeepCopy);
+  storeProjects();
+
+  let newEntry = document.createElement("p");
+  newEntry.innerText = newCheck.value;
+  checklistContainer.appendChild(newEntry);
+  newCheck.value = "";
+});
 
 function removeTodoCard(toDo, toDoCard) {}

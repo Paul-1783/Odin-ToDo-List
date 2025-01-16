@@ -236,3 +236,11 @@ body {
 .dragging {
     opacity: 0.5;
 }
+
+.checklistAll {
+    display: none;
+}
+
+.checkedOutItem {
+    text-decoration: line-through;
+}
