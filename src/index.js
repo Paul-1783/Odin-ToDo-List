@@ -28,7 +28,7 @@ const todosNextSevenDays = document.querySelector(".todosNext7Days");
 const workflowContainers = document.querySelectorAll(".workflow");
 
 const checklistContainer = document.querySelector(".checklistContainer");
-const checklistButton = document.querySelector(".checklistButton");
+const openCheckListButton = document.querySelector(".openCheckListButton");
 const submitNewCheck = document.querySelector("#submitNewCheck");
 const checklistAll = document.querySelector(".checklistAll");
 const newCheck = document.querySelector("#newCheck");
@@ -319,8 +319,32 @@ function setStatus(project, cardNumber, name) {
   } else if (name === "done_container") {
     project.getTodo(cardNumber).changeStatus("done");
   }
-
   project.updateTodo(cardNumber, toDo);
+}
+
+function storeProjects() {
+  if (localStorage.getItem("allProjects") !== null) {
+    localStorage.removeItem("allProjects");
+  }
+  let storageArray = allProjectsContainer.getAllProjects().map((project) => {
+    const newTodoList = [];
+    project.getAllTodos().forEach((todo) => {
+      let todoLocallyStored = {
+        title: todo.getTitle(),
+        description: todo.getDescr(),
+        dueDate: todo.getDueDate(),
+        priority: todo.getPrio(),
+        status: todo.getStatus(),
+        checkList: todo.getCheckList(),
+      };
+      newTodoList.push(todoLocallyStored);
+    });
+    return {
+      projectName: project.getProjectName(),
+      todoList: JSON.stringify(newTodoList),
+    };
+  });
+  localStorage.setItem("allProjects", JSON.stringify(storageArray));
 }
 
 extendedTodo.addEventListener("submit", () => {
@@ -354,75 +378,74 @@ extendedTodo.addEventListener("submit", () => {
 });
 
 extendedTodo.addEventListener("reset", () => {
+  checklistAll.classList.remove("visible");
+  checklistContainer.innerHTML = "";
+  checklistAll.style.display = "none";
+  openCheckListButton.innerText = "Show Checklist";
   extendedTodo.close();
 });
 
-function storeProjects() {
-  if (localStorage.getItem("allProjects") !== null) {
-    localStorage.removeItem("allProjects");
-  }
-  let storageArray = allProjectsContainer.getAllProjects().map((project) => {
-    const newTodoList = [];
-    project.getAllTodos().forEach((todo) => {
-      let todoLocallyStored = {
-        title: todo.getTitle(),
-        description: todo.getDescr(),
-        dueDate: todo.getDueDate(),
-        priority: todo.getPrio(),
-        status: todo.getStatus(),
-        checkList: todo.getCheckList(),
-      };
-      newTodoList.push(todoLocallyStored);
-    });
-    return {
-      projectName: project.getProjectName(),
-      todoList: JSON.stringify(newTodoList),
-    };
-  });
-  localStorage.setItem("allProjects", JSON.stringify(storageArray));
-}
-
-checklistButton.addEventListener("click", () => {
+openCheckListButton.addEventListener("click", () => {
   if (checklistAll.classList.toggle("visible")) {
     let project = Object.assign({}, temporalStore.getTempProject());
     let count = temporalStore.getTempCount();
-
+    let todo = project.getTodo(count);
     let theChecklist = project.getTodo(count).getCheckList();
+    console.log("heire", theChecklist);
+    // if (theChecklist.length > 0) {
+    checklistAll.style.display = "block";
+    openCheckListButton.innerText = "Close Checklist";
+    theChecklist.forEach((bulletpoint) => {
+      let checkListLabel = document.createElement("label");
+      checkListLabel.setAttribute("contentEditable", true);
+      checkListLabel.setAttribute("id", "checkListLabel");
+      if (bulletpoint.done === true) {
+        checkListLabel.classList.add("checkedOutItem");
+      }
+      checkListLabel.innerText = bulletpoint.checkEntry;
+      checkListLabel.setAttribute("for", "checkboxForLabel");
 
-    if (theChecklist.length > 0) {
-      checklistAll.style.display = "block";
-      checklistButton.innerText = "Close Checklist";
-      theChecklist.forEach((bulletpoint) => {
-        let checkListEntry = document.createElement("div");
+      let inputCheck = document.createElement("input");
+      inputCheck.type = "checkbox";
+      inputCheck.setAttribute("name", "checkboxForLabel");
+      inputCheck.setAttribute("id", "checkboxForLabel");
 
-        let checkListLabel = document.createElement("label");
-        checkListLabel.setAttribute("contentEditable", true);
-        checkListLabel.setAttribute("id", "checkListLabel");
-        checkListLabel.innerText = bulletpoint;
-        checkListLabel.setAttribute("for", "checkboxForLabel");
+      let checkListEntry = document.createElement("div");
+      checkListEntry.appendChild(checkListLabel);
+      checkListEntry.appendChild(inputCheck);
 
-        let inputCheck = document.createElement("input");
-        inputCheck.type = "checkbox";
-        inputCheck.setAttribute("name", "checkboxForLabel");
-        inputCheck.setAttribute("id", "checkboxForLabel");
-        checkListEntry.appendChild(checkListLabel);
-        checkListEntry.appendChild(inputCheck);
+      inputCheck.addEventListener("click", () => {
+        let indexToBeUpdated = theChecklist.findIndex(
+          (checkEntry) => checkEntry === bulletpoint
+        );
 
-        inputCheck.addEventListener("click", () => {
-          let indexToBeUpdated = theChecklist.findIndex(
-            (checkEntry) => checkEntry === bulletpoint
-          );
-
-          checkListLabel.classList.add("checkedOutItem");
+        let checkListElement = {
+          checkEntry: checkListLabel.innerText,
+          done: true,
+        };
+        let newTodoElement = newTodo(
+          todo.getTitle(),
+          todo.getDescr(),
+          todo.getDueDate(),
+          todo.getPrio(),
+          todo.getStatus()
+        );
+        theChecklist.forEach((checkEntry) => {
+          newTodoElement.addToCheckList(checkEntry);
         });
-
-        checklistContainer.appendChild(checkListEntry);
+        newTodoElement.addToCheckList(checkListElement);
+        project.updateTodo(indexToBeUpdated, newTodoElement);
+        storeProjects();
+        checkListLabel.classList.add("checkedOutItem");
       });
-    }
+
+      checklistContainer.appendChild(checkListEntry);
+    });
+    // }
   } else {
     checklistAll.style.display = "none";
     checklistContainer.innerHTML = "";
-    checklistButton.innerText = "Show Checklist";
+    openCheckListButton.innerText = "Show Checklist";
   }
 });
 
@@ -438,14 +461,15 @@ submitNewCheck.addEventListener("click", () => {
     updatedTodo.getPrio(),
     updatedTodo.getStatus()
   );
-
-  updatedTodo.getCheckList().forEach((todo) => {
-    todoDeepCopy.addToCheckList(todo);
+  updatedTodo.getCheckList().forEach((entry) => {
+    todoDeepCopy.addToCheckList(entry);
   });
-  todoDeepCopy.addToCheckList(newCheck.value);
+  todoDeepCopy.addToCheckList({ checkEntry: newCheck.value, done: false });
+
   project.updateTodo(count, todoDeepCopy);
   storeProjects();
-  if (checklistButton.innerText === "Close Checklist") {
+
+  if (openCheckListButton.innerText === "Close Checklist") {
     let checkListEntry = document.createElement("div");
 
     let checkListLabel = document.createElement("label");
@@ -462,10 +486,20 @@ submitNewCheck.addEventListener("click", () => {
     checkListEntry.appendChild(inputCheck);
 
     inputCheck.addEventListener("click", () => {
-      let indexToBeUpdated = theChecklist.findIndex(
-        (checkEntry) => checkEntry === bulletpoint
-      );
+      let indexToBeUpdated = todoDeepCopy
+        .getCheckList()
+        .findIndex((checkEntry) => checkEntry === checkListLabel.innerText);
 
+      console.log(indexToBeUpdated);
+
+      let checkListElement = {
+        checkEntry: checkListLabel.innerText,
+        done: true,
+      };
+
+      todoDeepCopy.addToCheckList(checkListElement);
+      project.updateTodo(indexToBeUpdated, todoDeepCopy);
+      storeProjects();
       checkListLabel.classList.add("checkedOutItem");
     });
 

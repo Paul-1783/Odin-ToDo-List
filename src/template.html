@@ -128,25 +128,26 @@
                 <button type="reset" class="closeExtendedTodoDialog">Close</button>
                 <button class="submitExtendedTodoDialog">Submit</button>
             </menu>
-            <p>Checklist:</p>
-            <button type="button" class="checklistButton">Show Checklist</button>
-            <div class="newCheckEntry">
-                <p>Add an entry to the checklist:</p>
-                <form method="dialog" action="">
-                    <textarea name="newCheck" id="newCheck" rows="5" cols="30" minlength="10" maxlength="20"
-                        placeholder="Enter entry here:"></textarea>
-                    <button type="button" id="submitNewCheck">Submit</button>
-                </form>
-            </div>
+            <button type="button" class="openCheckListButton">Show Checklist</button>
             <div class="checklistAll">
+                <div class="newCheckEntry">
+                    <p>Add an entry to the checklist:</p>
+                    <form method="dialog" action="">
+                        <textarea name="newCheck" id="newCheck" rows="5" cols="30" minlength="10" maxlength="20"
+                            placeholder="Enter entry here:"></textarea>
+                        <button type="button" id="submitNewCheck">Add</button>
+                    </form>
+                </div>
+                <p>Checklist:</p>
                 <div class="checklistContainer"></div>
             </div>
-    </dialog class="confirmDeleteCheckEntry">
+        </form>
+    </dialog>
     <dialog class="deleteConfirmation">
         <p>Do you want to set this checklist entry to done?</p>
         <form action="">
             <menu>
-                <button type="submit" class="confirmCheckentryDelete">Confirm</button>
+                <button type="button" class="confirmCheckentryDelete">Confirm</button>
                 <button type="button" id="denyCheckentryDelete">No</button>
             </menu>
         </form>
