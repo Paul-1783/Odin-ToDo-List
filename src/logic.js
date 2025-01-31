@@ -42,6 +42,11 @@ let newTodo = function (ti, desc, due, prio, sta) {
   function getCheckList() {
     return checkList;
   }
+
+  function updateChecklist(index, checkListElem) {
+    checkList[index] = checkListElem;
+  }
+
   function getStatus() {
     return status;
   }
@@ -56,6 +61,7 @@ let newTodo = function (ti, desc, due, prio, sta) {
     changeDueDate,
     changePrio,
     addToCheckList,
+    updateChecklist,
     changeStatus,
     getTitle,
     getDescr,

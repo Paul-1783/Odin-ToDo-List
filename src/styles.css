@@ -22,7 +22,16 @@
     box-sizing: border-box;
 }
 
+
+html {
+    color: white
+}
+
 :root {
+    --primary-color: #778da9;
+    --secondary-color: #e0e1dd;
+    --tertiary-color: #415a77;
+    --quaternary-color: #1b263b;
     --system-ui: 'greatlakesnfregular', 'archivo_narrowregular';
 }
 
@@ -36,10 +45,10 @@ body {
 
 ::backdrop {
     background-image: linear-gradient(45deg,
-            magenta,
-            rebeccapurple,
-            dodgerblue,
-            green);
+            var(--primary-color),
+            var(--secondary-color),
+            var(--tertiary-color),
+            var(--quaternary-color));
     opacity: 0.75;
 }
 
@@ -47,37 +56,95 @@ body {
     display: grid;
     width: 100%;
     min-height: 100%;
-    background-color: aqua;
+    background-color: var(--tertiary-color);
+    color: var(--secondary-color);
     grid-template-columns: 1fr 3fr;
 }
 
 .dashboard {
-    background-color: cornsilk;
+    background-color: inherit;
 }
 
-.nav {}
+.nav {
+    display: grid;
+    grid-template-columns: 1fr;
+    height: 100%;
+    width: 100%;
+}
+
+.nav>* {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    border-radius: 0.5em;
+    padding: 1em;
+    min-width: 7em;
+    max-height: 4em;
+    border: 1px solid var(--quaternary-color);
+    color: white
+}
+
+.nav button {
+    background-color: var(--primary-color);
+    max-width: 7em;
+    background-image: linear-gradient(0.375turn, rgb(0, 0, 0, 0), rgb(0, 0, 0, 0.2) 30%);
+}
+
+.nav button:hover {
+    box-shadow: 7px 2px 5px black, inset 2px 2px 1px rgb(255, 255, 255, 0.5), inset -2px -2px 1px rgb(0, 0, 0, 0.5);
+}
+
+menu {
+    flex-wrap: wrap;
+    display: flex;
+    flex-direction: column;
+}
+
+menu>button {
+    margin: 1em;
+}
+
+.projectList {
+    display: grid;
+    align-items: start;
+}
 
 .panel {
     height: 100%;
+    background: var(--primary-color);
 }
 
 .presentationSection {
     padding: 1em;
-    border-color: teal;
 }
 
 .allProjectsSection {
-    min-height: 95vh;
+    min-height: 90vh;
     min-width: 650px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
     gap: 2%;
-    background-color: gold;
+    border-color: var(--secondary-color);
+}
+
+.projectCard {
+    background-color: var(--primary-color);
+    min-height: 10vh;
+    max-height: 20vh;
+    border-radius: 5px;
+    overflow: hidden;
+    border: 2px solid var(--quaternary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .oneProjectShow {
-    background-color: beige;
+    background-color: var(--primary-color);
     padding: 0;
     margin: 0;
     min-height: 100vh;
@@ -93,39 +160,19 @@ body {
 }
 
 .workflow {
-    background-color: blue;
+    background-color: var(--quaternary-color);
     min-width: 30vh;
     margin: 2px auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow: hidden;
-}
-
-.notStarted_container {
-    background-color: violet;
-}
-
-.progress_container {
-    background-color: blueviolet;
-}
-
-.done_container {
-    background-color: greenyellow;
-}
-
-.projectCard {
-    background-color: greenyellow;
-    min-height: 10vh;
-    max-height: 20vh;
-    border-radius: 5px;
-    overflow: scroll;
+    border-radius: 0.5em;
 }
 
 .oneProjectHeadings {
     display: flex;
 }
-
 
 .container {
     width: 200px;
@@ -148,20 +195,25 @@ body {
 
 .container .toDoCard .face.face1 {
     position: relative;
-    background: #ddd;
+    background: var(--tertiary-color);
+    color: var(--secondary-color);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1;
     transform: translateY(200px);
+    border-radius: 0.5em;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 20px 30px;
 }
 
 .container .toDoCard:hover .face.face1 {
-    background: #ff0057;
+    background: var(--secondary-color);
     transform: scale(1.2) translateY(0px);
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+    text-align: center;
+    margin: 0 0.3em;
+    border-radius: 0.5em;
 }
 
 .container .toDoCard .face.face1 #clickNotice {
@@ -189,27 +241,29 @@ body {
 .container .toDoCard .face.face1 .content h3 {
     margin: 10px 0 0;
     padding: 0;
-    color: #fff;
+    color: #fefae0;
     text-align: center;
     font-size: 1.5em;
 }
 
 .container .toDoCard .face.face2 {
     position: relative;
-    background: #fff;
+    background: var(--primary-color);
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
     box-sizing: border-box;
     transform: translateY(0);
+    border-radius: 0.5em;
 }
 
 .container .toDoCard:hover .face.face2 {
     transform: scale(1.2) translateY(40px);
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    background-color: blue;
+    background-color: var(--tertiary-color);
+    border-radius: 0.5em;
 }
 
 .container .toDoCard .face.face2 .content p {
@@ -222,7 +276,7 @@ body {
     display: inline-block;
     text-decoration: none;
     font-weight: 900;
-    color: #333;
+    color: var(--secondary-color);
     padding: 5px;
     border: 1px solid #333;
 }
@@ -243,4 +297,12 @@ body {
 
 .checkedOutItem {
     text-decoration: line-through;
+}
+
+.addProjectName {
+    min-height: 3em;
+    width: 100%;
+    text-align: center;
+    font-size: 2em;
+    line-height: 3em;
 }

@@ -1,3 +1,4 @@
+import "./reset.css";
 import "./styles.css";
 import {
   newTodo,
@@ -26,6 +27,7 @@ const extendedTodo = document.querySelector(".extendedTodo");
 const todosToday = document.querySelector(".todosToday");
 const todosNextSevenDays = document.querySelector(".todosNext7Days");
 const workflowContainers = document.querySelectorAll(".workflow");
+const openProject = document.querySelector(".openProject");
 
 const checklistContainer = document.querySelector(".checklistContainer");
 const openCheckListButton = document.querySelector(".openCheckListButton");
@@ -53,13 +55,15 @@ function showAllProjects() {
   oneProjectShow.style.display = "none";
   allProjectsSection.style.display = "grid";
 
+  openProject.classList.remove("addProjectName");
+  openProject.textContent = "";
+
   currentProjects.forEach((project) => {
     const card = document.createElement("div");
     card.classList.add("projectCard");
     card.insertAdjacentHTML(
       "beforeend",
-      `<h1 class="title">${project.getProjectName()}</h1
-      <p>Due Date:</p>`
+      `<h1 class="title">${project.getProjectName()}</h1>`
     );
     card.addEventListener("click", () => {
       showToDos(project);
@@ -106,6 +110,8 @@ function emptyWorkflowContainers() {
 function showToDos(project) {
   allProjectsSection.style.display = "none";
   oneProjectShow.style.display = "grid";
+  openProject.textContent = `Project "${project.getProjectName()}" - all contained Todos`;
+  openProject.classList.add("addProjectName");
 
   emptyWorkflowContainers();
 
@@ -366,7 +372,6 @@ extendedTodo.addEventListener("submit", () => {
   let count = temporalStore.getTempCount();
 
   let list = project.getTodo(count).getCheckList();
-  console.log("the list", list);
   list.forEach((checklistEntry) => {
     editedTodoElement.addToCheckList(checklistEntry);
   });
@@ -374,15 +379,12 @@ extendedTodo.addEventListener("submit", () => {
   project.updateTodo(count, editedTodoElement);
   storeProjects();
   showDueTodos();
+  closeTodo();
   showToDos(project);
 });
 
 extendedTodo.addEventListener("reset", () => {
-  checklistAll.classList.remove("visible");
-  checklistContainer.innerHTML = "";
-  checklistAll.style.display = "none";
-  openCheckListButton.innerText = "Show Checklist";
-  extendedTodo.close();
+  closeTodo();
 });
 
 openCheckListButton.addEventListener("click", () => {
@@ -391,15 +393,14 @@ openCheckListButton.addEventListener("click", () => {
     let count = temporalStore.getTempCount();
     let todo = project.getTodo(count);
     let theChecklist = project.getTodo(count).getCheckList();
-    console.log("heire", theChecklist);
-    // if (theChecklist.length > 0) {
     checklistAll.style.display = "block";
     openCheckListButton.innerText = "Close Checklist";
-    theChecklist.forEach((bulletpoint) => {
+
+    theChecklist.forEach((bulletpoint, indexToBeUpdated) => {
       let checkListLabel = document.createElement("label");
       checkListLabel.setAttribute("contentEditable", true);
       checkListLabel.setAttribute("id", "checkListLabel");
-      if (bulletpoint.done === true) {
+      if (bulletpoint.done) {
         checkListLabel.classList.add("checkedOutItem");
       }
       checkListLabel.innerText = bulletpoint.checkEntry;
@@ -414,11 +415,7 @@ openCheckListButton.addEventListener("click", () => {
       checkListEntry.appendChild(checkListLabel);
       checkListEntry.appendChild(inputCheck);
 
-      inputCheck.addEventListener("click", () => {
-        let indexToBeUpdated = theChecklist.findIndex(
-          (checkEntry) => checkEntry === bulletpoint
-        );
-
+      inputCheck.addEventListener("change", () => {
         let checkListElement = {
           checkEntry: checkListLabel.innerText,
           done: true,
@@ -430,24 +427,33 @@ openCheckListButton.addEventListener("click", () => {
           todo.getPrio(),
           todo.getStatus()
         );
-        theChecklist.forEach((checkEntry) => {
-          newTodoElement.addToCheckList(checkEntry);
+
+        theChecklist.forEach((checkElem) => {
+          newTodoElement.addToCheckList(checkElem);
         });
-        newTodoElement.addToCheckList(checkListElement);
-        project.updateTodo(indexToBeUpdated, newTodoElement);
+        newTodoElement.updateChecklist(indexToBeUpdated, checkListElement);
+
+        project.updateTodo(count, newTodoElement);
         storeProjects();
         checkListLabel.classList.add("checkedOutItem");
       });
 
       checklistContainer.appendChild(checkListEntry);
     });
-    // }
   } else {
     checklistAll.style.display = "none";
     checklistContainer.innerHTML = "";
     openCheckListButton.innerText = "Show Checklist";
   }
 });
+
+function closeTodo() {
+  checklistAll.classList.remove("visible");
+  checklistContainer.innerHTML = "";
+  checklistAll.style.display = "none";
+  openCheckListButton.innerText = "Show Checklist";
+  extendedTodo.close();
+}
 
 submitNewCheck.addEventListener("click", () => {
   let project = Object.assign({}, temporalStore.getTempProject());
@@ -461,50 +467,17 @@ submitNewCheck.addEventListener("click", () => {
     updatedTodo.getPrio(),
     updatedTodo.getStatus()
   );
+
   updatedTodo.getCheckList().forEach((entry) => {
     todoDeepCopy.addToCheckList(entry);
   });
-  todoDeepCopy.addToCheckList({ checkEntry: newCheck.value, done: false });
 
+  todoDeepCopy.addToCheckList({ checkEntry: newCheck.value, done: false });
   project.updateTodo(count, todoDeepCopy);
   storeProjects();
+  openCheckListButton.click();
+  openCheckListButton.click();
 
-  if (openCheckListButton.innerText === "Close Checklist") {
-    let checkListEntry = document.createElement("div");
-
-    let checkListLabel = document.createElement("label");
-    checkListLabel.setAttribute("checkEntryLabel", true);
-    checkListLabel.setAttribute("id", "checkEntryLabel");
-    checkListLabel.innerText = newCheck.value;
-    checkListLabel.setAttribute("for", "checkboxForLabel");
-
-    let inputCheck = document.createElement("input");
-    inputCheck.type = "checkbox";
-    inputCheck.setAttribute("name", "checkboxForLabel");
-    inputCheck.setAttribute("id", "checkboxForLabel");
-    checkListEntry.appendChild(checkListLabel);
-    checkListEntry.appendChild(inputCheck);
-
-    inputCheck.addEventListener("click", () => {
-      let indexToBeUpdated = todoDeepCopy
-        .getCheckList()
-        .findIndex((checkEntry) => checkEntry === checkListLabel.innerText);
-
-      console.log(indexToBeUpdated);
-
-      let checkListElement = {
-        checkEntry: checkListLabel.innerText,
-        done: true,
-      };
-
-      todoDeepCopy.addToCheckList(checkListElement);
-      project.updateTodo(indexToBeUpdated, todoDeepCopy);
-      storeProjects();
-      checkListLabel.classList.add("checkedOutItem");
-    });
-
-    checklistContainer.appendChild(checkListEntry);
-  }
   newCheck.value = "";
 });
 
