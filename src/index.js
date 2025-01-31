@@ -55,8 +55,7 @@ function showAllProjects() {
   oneProjectShow.style.display = "none";
   allProjectsSection.style.display = "grid";
 
-  openProject.classList.remove("addProjectName");
-  openProject.textContent = "";
+  openProject.textContent = "Projects";
 
   currentProjects.forEach((project) => {
     const card = document.createElement("div");
@@ -111,7 +110,6 @@ function showToDos(project) {
   allProjectsSection.style.display = "none";
   oneProjectShow.style.display = "grid";
   openProject.textContent = `Project "${project.getProjectName()}" - all contained Todos`;
-  openProject.classList.add("addProjectName");
 
   emptyWorkflowContainers();
 

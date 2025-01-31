@@ -141,6 +141,11 @@ menu>button {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-image: linear-gradient(0.375turn, rgb(0, 0, 0, 0), rgb(0, 0, 0, 0.2) 30%);
+}
+
+.projectCard:hover {
+    box-shadow: 7px 2px 5px black, inset 2px 2px 1px rgb(255, 255, 255, 0.5), inset -2px -2px 1px rgb(0, 0, 0, 0.5);
 }
 
 .oneProjectShow {
@@ -157,6 +162,10 @@ menu>button {
     display: grid;
     justify-content: center;
     align-items: center;
+}
+
+.title {
+    color: var(--secondary-color);
 }
 
 .workflow {
@@ -204,6 +213,7 @@ menu>button {
     transform: translateY(200px);
     border-radius: 0.5em;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 20px 30px;
+    background-image: linear-gradient(0.375turn, rgb(0, 0, 0, 0), rgb(0, 0, 0, 0.2) 30%);
 }
 
 .container .toDoCard:hover .face.face1 {
@@ -299,7 +309,7 @@ menu>button {
     text-decoration: line-through;
 }
 
-.addProjectName {
+.openProject {
     min-height: 3em;
     width: 100%;
     text-align: center;
