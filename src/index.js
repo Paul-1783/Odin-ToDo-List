@@ -409,7 +409,7 @@ openCheckListButton.addEventListener("click", () => {
       inputCheck.setAttribute("name", "checkboxForLabel");
       inputCheck.setAttribute("id", "checkboxForLabel");
 
-      let checkListEntry = document.createElement("div");
+      let checkListEntry = document.createElement("p");
       checkListEntry.appendChild(checkListLabel);
       checkListEntry.appendChild(inputCheck);
 

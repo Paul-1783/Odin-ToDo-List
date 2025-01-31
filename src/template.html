@@ -57,8 +57,10 @@
     </div>
     <dialog class="newProjectDialog">
         <form action="" method="dialog" id="newProjectDialogForm">
-            <p>Please enter the name of the new project:</p>
-            <input type="text" id="NewProjectName" autofocus value="default" required>
+            <p>
+                <label>Please enter the name of the new project:</label>
+                <input type="text" id="NewProjectName" autofocus value="default" required>
+            </p>
             <menu>
                 <button type="reset" class="closeDialog">Close</button>
                 <button class="submitDialog">Submit</button>
@@ -130,17 +132,19 @@
                 </p>
             </section>
             <menu>
-                <button type="reset" class="closeExtendedTodoDialog">Close</button>
+                <button type="reset" class="closeExtendedTodoDialog">Close Form</button>
                 <button class="submitExtendedTodoDialog">Submit</button>
+                <button type="button" class="openCheckListButton">Show Checklist</button>
             </menu>
-            <button type="button" class="openCheckListButton">Show Checklist</button>
             <div class="checklistAll">
                 <div class="newCheckEntry">
                     <p>Add an entry to the checklist:</p>
                     <form method="dialog" action="">
-                        <textarea name="newCheck" id="newCheck" rows="5" cols="30" minlength="10" maxlength="20"
-                            placeholder="Enter entry here:"></textarea>
-                        <button type="button" id="submitNewCheck">Add</button>
+                        <p>
+                            <textarea name="newCheck" id="newCheck" rows="5" cols="30" minlength="10" maxlength="20"
+                                placeholder="Enter entry here:"></textarea>
+                            <button type="button" id="submitNewCheck">Add</button>
+                        </p>
                     </form>
                 </div>
                 <p>Checklist:</p>
