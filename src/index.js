@@ -15,7 +15,6 @@ let newToDoDialog = document.querySelector(".newToDoDialog");
 dialogNewProject.returnValue = "NoNewProjectName";
 let newNameInput = document.querySelector("#NewProjectName");
 const projectList = document.querySelector(".projectList");
-const presentationSection = document.querySelector(".presentationSection");
 const addAToDoButton = document.querySelector(".addAToDo");
 const projectSelectField = document.querySelector("#projectSelect");
 const allProjectsSection = document.querySelector(".allProjectsSection");
@@ -282,8 +281,8 @@ function createDiv(newEntry, project, toDo) {
   newEntry.classList.add("upcomingToDo");
   newEntry.insertAdjacentHTML(
     "beforeend",
-    `<h1 class="title">${project.getProjectName()}</h1
-        <p>${toDo.getTitle()}</p>
+    `<p class="title">Project: ${project.getProjectName()}</p>
+        <p>Title: ${toDo.getTitle()}</p>
       <p>Due Date: ${formatDate(toDo.getDueDate())}</p>`
   );
 }

@@ -106,6 +106,8 @@
     <dialog class="extendedTodo">
         <form action="" method="dialog" id="extendedTodoDialogForm">
             <section>
+                <button type="reset" class="closeExtendedTodoDialog">Close Form</button>
+
                 <p>
                     <label for="toDoTitle">Title:</label>
                     <input type="text" name="extendedToDoTitle" id="extendedToDoTitle" required />
@@ -131,9 +133,7 @@
                     <input type="date" name="extendedDueDate" id="extendedDueDate" required />
                 </p>
             </section>
-            <menu>
-                <button type="reset" class="closeExtendedTodoDialog">Close Form</button>
-                <button class="submitExtendedTodoDialog">Submit</button>
+            <menu> <button class="submitExtendedTodoDialog">Submit</button>
                 <button type="button" class="openCheckListButton">Show Checklist</button>
             </menu>
             <div class="checklistAll">
