@@ -8,7 +8,7 @@ import {
 } from "./logic.js";
 const { isToday, differenceInBusinessDays, format } = require("date-fns");
 
-const newProjectButton = document.querySelector("#newProjectButton");
+const newProjectButton = document.querySelector(".newProjectButton");
 const showAllProjectsButton = document.querySelector(".showAllProjects");
 let dialogNewProject = document.querySelector(".newProjectDialog");
 let newToDoDialog = document.querySelector(".newToDoDialog");
